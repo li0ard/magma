@@ -1,6 +1,6 @@
 {
   "name": "@li0ard/magma",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "li0ard",
   "repository": {
     "type": "git",
@@ -32,6 +32,6 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@li0ard/gost3413": "^0.1.3"
+    "@li0ard/gost3413": "^0.1.4"
   }
 }
