@@ -49,9 +49,7 @@ export class Magma {
     public transformT(value: number): number {
         let result = 0;
         for (let i = 0; i < 8; i++) {
-            const part = (value >> (4 * i)) & 0x0f;
-            const substituted = this.sbox[i][part];
-            result |= substituted << (4 * i);
+            result |= this.sbox[i][(value >> (4 * i)) & 0x0f] << (4 * i);
         }
         return result >>> 0;
     }
@@ -84,8 +82,7 @@ export class Magma {
      * @throws {CipherError} Block size is invalid or data is too short
      */
     public encryptBlock(block: Uint8Array): Uint8Array {
-        if (block.length !== BLOCK_SIZE) throw new CipherError("Invalid block size");
-        if (block.byteLength === 0) throw new CipherError("Data too short");
+        if (block.length === 0 || block.length !== BLOCK_SIZE) throw new CipherError("Invalid block size");
 
         let a0 = Magma.bytesToU32(block.slice(0, 4));
         let a1 = Magma.bytesToU32(block.slice(4, 8));
@@ -109,8 +106,7 @@ export class Magma {
      * @throws {CipherError} Block size is invalid or data is too short
      */
     public decryptBlock(block: Uint8Array): Uint8Array {
-        if (block.length !== BLOCK_SIZE) throw new CipherError("Invalid block size");
-        if (block.byteLength === 0) throw new CipherError("Data too short");
+        if (block.length === 0 || block.length !== BLOCK_SIZE) throw new CipherError("Invalid block size");
 
         let a0 = Magma.bytesToU32(block.slice(0, 4));
         let a1 = Magma.bytesToU32(block.slice(4, 8));
@@ -149,3 +145,4 @@ export * from "./modes/ctr"
 export * from "./modes/ofb"
 export * from "./modes/mac"
 export * from "./modes/acpkm"
+export * from "./modes/mgm"

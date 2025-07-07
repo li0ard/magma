@@ -12,7 +12,7 @@ import { ctr_acpkm, acpkmDerivation as acpkmDerivation_, acpkmDerivationMaster a
 export const encryptCTR_ACPKM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array): Uint8Array => {
     class ACPKMClass extends Magma {
         constructor(key: Uint8Array) {
-            super(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+            super(key)
         }
     
         encrypt(block: Uint8Array): Uint8Array {
@@ -58,7 +58,7 @@ export const acpkmDerivation = (key: Uint8Array): Uint8Array => {
 export const acpkmDerivationMaster = (key: Uint8Array, keySize: number): Uint8Array => {
     class ACPKMClass extends Magma {
         constructor(key: Uint8Array) {
-            super(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+            super(key)
         }
     
         encrypt(block: Uint8Array): Uint8Array {
@@ -81,7 +81,7 @@ export const acpkmDerivationMaster = (key: Uint8Array, keySize: number): Uint8Ar
 export const omac_ACPKM = (key: Uint8Array, data: Uint8Array): Uint8Array => {
     class ACPKMClass extends Magma {
         constructor(key: Uint8Array) {
-            super(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+            super(key)
         }
     
         encrypt(block: Uint8Array): Uint8Array {
