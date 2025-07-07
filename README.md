@@ -36,7 +36,7 @@ bunx jsr i @li0ard/magma
 - [x] MAC (CMAC/OMAC/OMAC1)
 - [x] Counter with Advance Cryptographic Prolongation of Key Material (CTR-ACPKM)
 - [x] MAC with Advance Cryptographic Prolongation of Key Material (OMAC-ACPKM)
-- [ ] *Multilinear Galois Mode (MGM) (Soon)*
+- [x] Multilinear Galois Mode (MGM)
 
 ## Features
 - Provides simple and modern API
