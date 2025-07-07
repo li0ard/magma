@@ -1,0 +1,37 @@
+{
+  "name": "@li0ard/magma",
+  "version": "0.1.0",
+  "author": "li0ard",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/li0ard/magma.git"
+  },
+  "main": "dist/index.js",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typedoc": "^0.28.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/li0ard/magma/issues"
+  },
+  "description": "Magma cipher implementation in pure TypeScript",
+  "files": ["dist"],
+  "homepage": "https://github.com/li0ard/magma#readme",
+  "keywords": ["gost", "crypto", "streebog", "magma"],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf dist/ && tsc --project tsconfig.build.json",
+    "docs": "rm -rf docs/ && typedoc --options .config/typedoc/config.cjs"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@li0ard/gost3413": "^0.1.2"
+  }
+}
