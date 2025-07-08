@@ -1,7 +1,6 @@
 import { Magma, type Sbox, sboxes, BLOCK_SIZE } from "../";
 import { ecb_encrypt, ecb_decrypt } from "@li0ard/gost3413"
 
-
 /**
  * Encrypts data using Electronic Codebook (ECB) mode with Magma cipher.
  * 

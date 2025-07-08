@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, Magma, sboxes } from "../"
+import { BLOCK_SIZE, Magma } from "../"
 import { MGM } from "@li0ard/gost3413"
 
 /**

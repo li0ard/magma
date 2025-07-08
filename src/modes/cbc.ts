@@ -8,7 +8,7 @@ import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413"
  * @param data Data to be encrypted
  * @param iv Initialization vector
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Promise<Uint8Array>}
+ * @returns {Uint8Array}
  */
 export const encryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
     const cipher = new Magma(key, sbox)

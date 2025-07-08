@@ -1,5 +1,4 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
-
 import { ofb } from "@li0ard/gost3413"
 
 /**

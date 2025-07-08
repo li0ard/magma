@@ -43,7 +43,7 @@ export class Magma {
      * Applies substitution transformation (T-transformation) using S-box.
      * Breaks input value into 4-bit parts, substitutes each part using corresponding S-box row,
      * and reconstructs transformed value.
-     * @param value - Value to be transformed
+     * @param value Value to be transformed
      * @returns {number} Transformed 32-bit value after substitution
     */
     public transformT(value: number): number {
@@ -57,8 +57,8 @@ export class Magma {
     /**
      * Applies the G-transformation (Feistel round function) to input value.
      * Performs addition with round key, applies T-transformation, and performs cyclic left shift.
-     * @param a - Input 32-bit value to be transformed
-     * @param k - Round key used in the transformation
+     * @param a Input 32-bit value to be transformed
+     * @param k Round key used in the transformation
      * @returns {number} Transformed 32-bit value after G-transformation
      */
     public transformG(a: number, k: number): number {
@@ -69,7 +69,7 @@ export class Magma {
 
     /**
      * Returns round keys
-     * @returns {number}
+     * @returns {number[]}
      */
     public getRoundKeys(): number[] {
         return [...this.roundKeys]; 
@@ -77,7 +77,7 @@ export class Magma {
 
     /**
      * Encrypts single block of data using Magma (Feistel network) encryption algorithm.
-     * @param block - Block to be encrypted
+     * @param block Block to be encrypted
      * @returns {Uint8Array} Encrypted block
      * @throws {CipherError} Block size is invalid or data is too short
      */
@@ -101,7 +101,7 @@ export class Magma {
 
     /**
      * Decrypts single block of data using Magma (Feistel network) encryption algorithm.
-     * @param block - Block to be decrypted
+     * @param block Block to be decrypted
      * @returns {Uint8Array} Decrypted block
      * @throws {CipherError} Block size is invalid or data is too short
      */

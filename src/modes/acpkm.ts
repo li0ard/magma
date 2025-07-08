@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, Magma, sboxes } from "../";
+import { BLOCK_SIZE, Magma } from "../";
 import { ctr_acpkm, acpkmDerivation as acpkmDerivation_, acpkmDerivationMaster as acpkmDerivationMaster_, KEYSIZE, omac_acpkm_master } from "@li0ard/gost3413"
 
 /**
@@ -20,7 +20,7 @@ export const encryptCTR_ACPKM = (key: Uint8Array, data: Uint8Array, iv: Uint8Arr
         }
     }
     
-    const cipher = new Magma(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+    const cipher = new Magma(key)
     const encrypter = (buf: Uint8Array) => {
         return cipher.encryptBlock(buf)
     }
@@ -42,7 +42,7 @@ export const decryptCTR_ACPKM = encryptCTR_ACPKM
  * @param key Encryption key
  */
 export const acpkmDerivation = (key: Uint8Array): Uint8Array => {
-    const cipher = new Magma(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+    const cipher = new Magma(key)
     const encrypter = (buf: Uint8Array) => {
         return cipher.encryptBlock(buf)
     }
@@ -66,7 +66,7 @@ export const acpkmDerivationMaster = (key: Uint8Array, keySize: number): Uint8Ar
         }
     }
 
-    const cipher = new Magma(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+    const cipher = new Magma(key)
     const encrypter = (buf: Uint8Array) => {
         return cipher.encryptBlock(buf)
     }
@@ -88,7 +88,7 @@ export const omac_ACPKM = (key: Uint8Array, data: Uint8Array): Uint8Array => {
             return this.encryptBlock(block)
         }
     }
-    const cipher = new Magma(key, sboxes.ID_TC26_GOST_28147_PARAM_Z)
+    const cipher = new Magma(key)
     const encrypter = (buf: Uint8Array) => {
         return cipher.encryptBlock(buf)
     }
