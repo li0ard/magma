@@ -13,7 +13,7 @@ authors:
     email: li0ard@li0ard.rest
     affiliation: TheInfinityWay
     orcid: 'https://orcid.org/0009-0008-6084-7154'
-repository-code: 'https://github.com/li0ard/keeloq'
+repository-code: 'https://github.com/li0ard/magma'
 abstract: Magma cipher implementation in pure TypeScript
 keywords:
   - gost

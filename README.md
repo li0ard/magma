@@ -27,7 +27,7 @@ npm i @li0ard/magma
 bunx jsr i @li0ard/magma
 ```
 
-## Supported modes
+## Supported modes (GOST R 34.12-2015)
 - [x] Electronic Codebook (ECB)
 - [x] Cipher Block Chaining (CBC)
 - [x] Cipher Feedback (CFB)
@@ -38,10 +38,17 @@ bunx jsr i @li0ard/magma
 - [x] MAC with Advance Cryptographic Prolongation of Key Material (OMAC-ACPKM)
 - [x] Multilinear Galois Mode (MGM)
 
+## Supported modes (GOST 28147-89)
+- [x] Electronic Codebook (ECB)
+- [x] Cipher Block Chaining (CBC)
+- [x] Cipher Feedback (CFB)
+- [x] Counter (CTR)
+- [ ] *MAC (Soon...)*
+
 ## Features
 - Provides simple and modern API
 - Most of the APIs are strictly typed
-- Fully complies with [GOST R 34.12-2015 (RFC 8891)](https://datatracker.ietf.org/doc/html/rfc8891) and [GOST R 34.13-2015 (in Russian)](https://tc26.ru/standard/gost/GOST_R_3413-2015.pdf) standarts
+- Fully complies with [GOST R 34.12-2015 (RFC 8891)](https://datatracker.ietf.org/doc/html/rfc8891), [GOST R 34.13-2015 (in Russian)](https://tc26.ru/standard/gost/GOST_R_3413-2015.pdf) and [GOST 28147-89 (in Russian)](https://meganorm.ru/Data2/1/4294826/4294826631.pdf) standarts
 - Supports Bun, Node.js, Deno, Browsers
 
 ## Examples
@@ -71,4 +78,17 @@ console.log(encrypted) // Uint8Array [...]
 
 const decrypted = decryptCTR_ACPKM(key, encrypted, iv)
 console.log(decrypted) // Uint8Array [...]
+```
+
+### ECB mode (GOST 28147-89)
+```ts
+import { decryptECB, encryptECB, sboxes } from "@li0ard/magma";
+
+const key = Buffer.from("0475f6e05038fbfad2c7c390edb3ca3d1547124291ae1e8a2f79cd9ed2bcefbd", "hex")
+const plaintext = Buffer.from("07060504030201000f0e0d0c0b0a090817161514131211101f1e1d1c1b1a191827262524232221202f2e2d2c2b2a292837363534333231303f3e3d3c3b3a393847464544434241404f4e4d4c4b4a494857565554535251505f5e5d5c5b5a595867666564636261606f6e6d6c6b6a696877767574737271707f7e7d7c7b7a797887868584838281808f8e8d8c8b8a898897969594939291909f9e9d9c9b9a9998a7a6a5a4a3a2a1a0afaeadacabaaa9a8b7b6b5b4b3b2b1b0bfbebdbcbbbab9b8c7c6c5c4c3c2c1c0cfcecdcccbcac9c8d7d6d5d4d3d2d1d0dfdedddcdbdad9d8e7e6e5e4e3e2e1e0efeeedecebeae9e8f7f6f5f4f3f2f1f0fffefdfcfbfaf9f8", "hex")
+const encrypted = encryptECB(key, plaintext, true, sboxes.ID_GOST_28147_89_TEST_PARAM_SET)
+console.log(encrypted) // Uint8Array [ ... ]
+
+const decrypted = decryptECB(key, encrypted, true, sboxes.ID_GOST_28147_89_TEST_PARAM_SET)
+console.log(decrypted) // Uint8Array [ ... ]
 ```

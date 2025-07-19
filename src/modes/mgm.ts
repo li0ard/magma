@@ -9,13 +9,11 @@ import { MGM } from "@li0ard/gost3413"
  * @param additionalData Additional data to be authenticated
  */
 export const encryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, additionalData: Uint8Array = new Uint8Array()): Uint8Array => {
-    const cipher = new Magma(key)
-    const encrypter = (buf: Uint8Array) => {
-        return cipher.encryptBlock(buf)
-    }
+    const cipher = new Magma(key);
+    const encrypter = (buf: Uint8Array) => cipher.encryptBlock(buf);
 
-    let mgm = new MGM(encrypter, BLOCK_SIZE)
-    return mgm.seal(iv.slice(), data.slice(), additionalData.slice())
+    let mgm = new MGM(encrypter, BLOCK_SIZE);
+    return mgm.seal(iv.slice(), data.slice(), additionalData.slice());
 }
 
 /**
@@ -26,11 +24,9 @@ export const encryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, ad
  * @param additionalData Additional data to be authenticated
  */
 export const decryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, additionalData: Uint8Array = new Uint8Array()): Uint8Array => {
-    const cipher = new Magma(key)
-    const encrypter = (buf: Uint8Array) => {
-        return cipher.encryptBlock(buf)
-    }
+    const cipher = new Magma(key);
+    const encrypter = (buf: Uint8Array) => cipher.encryptBlock(buf);
 
-    let mgm = new MGM(encrypter, BLOCK_SIZE)
-    return mgm.open(iv.slice(), data.slice(), additionalData.slice())
+    let mgm = new MGM(encrypter, BLOCK_SIZE);
+    return mgm.open(iv.slice(), data.slice(), additionalData.slice());
 }

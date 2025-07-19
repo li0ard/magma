@@ -11,11 +11,9 @@ import { ofb } from "@li0ard/gost3413"
  * @returns {Uint8Array}
  */
 export const encryptOFB = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
-    const cipher = new Magma(key, sbox)
-    const encrypter = (buf: Uint8Array) => {
-        return cipher.encryptBlock(buf)
-    }
-    return ofb(encrypter, BLOCK_SIZE, data, iv)
+    const cipher = new Magma(key, sbox);
+    const encrypter = (buf: Uint8Array) => cipher.encryptBlock(buf);
+    return ofb(encrypter, BLOCK_SIZE, data, iv);
 }
 
 /**
@@ -27,4 +25,4 @@ export const encryptOFB = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, sb
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
  * @returns {Uint8Array}
  */
-export const decryptOFB = encryptOFB
+export const decryptOFB = encryptOFB;
