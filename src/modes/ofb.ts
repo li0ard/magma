@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
-import { ofb } from "@li0ard/gost3413"
+import { ofb } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using the Output Feedback (OFB) mode with Magma cipher.

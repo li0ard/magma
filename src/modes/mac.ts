@@ -1,5 +1,5 @@
-import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../"
-import { mac as mac_ } from "@li0ard/gost3413"
+import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
+import { mac as mac_ } from "@li0ard/gost3413";
 
 /**
  * Compute MAC (CMAC, OMAC1) with Magma cipher

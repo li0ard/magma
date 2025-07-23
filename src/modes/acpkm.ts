@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma } from "../";
-import { ctr_acpkm, acpkmDerivation as acpkmDerivation_, acpkmDerivationMaster as acpkmDerivationMaster_, KEYSIZE, omac_acpkm_master } from "@li0ard/gost3413"
+import { ctr_acpkm, acpkmDerivation as acpkmDerivation_, acpkmDerivationMaster as acpkmDerivationMaster_, KEYSIZE, omac_acpkm_master } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using the Counter with Advance Cryptographic Prolongation of Key Material (CTR-ACPKM) mode with Magma cipher.

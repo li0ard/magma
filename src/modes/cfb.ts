@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
-import { cfb_encrypt, cfb_decrypt } from "@li0ard/gost3413"
+import { cfb_encrypt, cfb_decrypt } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using Cipher Feedback (CFB) mode with Magma cipher

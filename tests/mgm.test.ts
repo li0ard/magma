@@ -9,12 +9,10 @@ const encrypted = Buffer.from("C795066C5F9EA03B85113342459185AE1F2E00D6BF2B785D9
 
 describe("MGM", () => {
     test("Encryption", () => {
-        let result = encryptMGM(key, plaintext, iv, ad)
-        expect(result).toStrictEqual(encrypted)
+        expect(encryptMGM(key, plaintext, iv, ad)).toStrictEqual(encrypted)
     })
 
     test("Decryption", () => {
-        let result = decryptMGM(key, encrypted, iv, ad)
-        expect(result).toStrictEqual(plaintext)
+        expect(decryptMGM(key, encrypted, iv, ad)).toStrictEqual(plaintext)
     })
 })

@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
-import { ctr, getPadLength } from "@li0ard/gost3413"
+import { ctr, getPadLength } from "@li0ard/gost3413";
 import { concatBytes, xor, type CipherFunc } from "@li0ard/gost3413/dist/utils";
 
 /** Magma `CNT` (not `CTR`, but similar) mode */

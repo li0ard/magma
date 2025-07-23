@@ -21,39 +21,33 @@ describe("CTR-ACPKM", () => {
         expect(result3).toStrictEqual(expected3)
     })
     test("Encryption", () => {
-        let result = encryptCTR_ACPKM(key, plaintext, iv)
-        expect(result).toStrictEqual(encrypted)
+        expect(encryptCTR_ACPKM(key, plaintext, iv)).toStrictEqual(encrypted)
     })
 
     test("Decryption", () => {
-        let result = decryptCTR_ACPKM(key, encrypted, iv)
-        expect(result).toStrictEqual(plaintext)
+        expect(decryptCTR_ACPKM(key, encrypted, iv)).toStrictEqual(plaintext)
     })
 })
 
 describe("OMAC-ACPKM", () => {
     let expected = Buffer.from("0DF2F5273DA328932AC49D81D36B2558A50DBF9BBCAC74A614B2CCB2F1CBCD8A70638E3DE8B3571E8D3826D55E63A167E2406640547B9F1F5F2B43612AAEAFDA180BAC8604DFA6FE53C2CE270E9C9F5268D0FDBFE1A3BDD9BE5B96D0A12023486EF1710F924AE0313052CB5FCA0B791E1BABE8576D0FE3A8", "hex")
     test("Derivation", () => {
-        let result = acpkmDerivationMaster(key, 1)
-        expect(result).toStrictEqual(expected.subarray(0, 40))
+        expect(acpkmDerivationMaster(key, 1)).toStrictEqual(expected.subarray(0, 40))
     })
 
     test("Derivation #2", () => {
-        let result = acpkmDerivationMaster(key, 3)
-        expect(result).toStrictEqual(expected)
+        expect(acpkmDerivationMaster(key, 3)).toStrictEqual(expected)
     })
 
     test("Compute", () => {
         let data = Buffer.from("1122334455667700FFEEDDCC", "hex")
         let expected = Buffer.from("A0540E3730ACBCF3", "hex")
-        let result = omac_ACPKM(key, data)
-        expect(result).toStrictEqual(expected)
+        expect(omac_ACPKM(key, data)).toStrictEqual(expected)
     })
 
     test("Compute #2", () => {
         let data = Buffer.from("1122334455667700FFEEDDCCBBAA998800112233445566778899AABBCCEEFF0A1122334455667788", "hex")
         let expected = Buffer.from("34008DAD5496BB8E", "hex")
-        let result = omac_ACPKM(key, data)
-        expect(result).toStrictEqual(expected)
+        expect(omac_ACPKM(key, data)).toStrictEqual(expected)
     })
 })

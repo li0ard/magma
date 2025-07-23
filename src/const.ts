@@ -248,14 +248,14 @@ export const sboxes = {
 }
 
 /** Magma block size */
-export const BLOCK_SIZE = 8
+export const BLOCK_SIZE = 8;
 /** Magma key size */
-export const KEY_SIZE = 32
+export const KEY_SIZE = 32;
 /** Cipher rounds */
-export const ROUNDS = 32
+export const ROUNDS = 32;
 
 /** Type for S-Box representation */
-export type Sbox = number[][]
+export type Sbox = number[][];
 
 /** Wrapper for default `Error` class */
 export class CipherError extends Error {

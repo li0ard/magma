@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, CipherError, KEY_SIZE, ROUNDS, sboxes, type Sbox } from "./const";
-import { concatBytes } from "@li0ard/gost3413/dist/utils"
+import { concatBytes } from "@li0ard/gost3413/dist/utils";
 
 /** Magma core class */
 export class Magma {
@@ -169,12 +169,13 @@ export class Magma {
     }
 }
 
-export * from "./const"
-export * from "./modes/ecb"
-export * from "./modes/cbc"
-export * from "./modes/cfb"
-export * from "./modes/ctr"
-export * from "./modes/ofb"
-export * from "./modes/mac"
-export * from "./modes/acpkm"
-export * from "./modes/mgm"
+export * from "./const";
+export * from "./modes/ecb";
+export * from "./modes/cbc";
+export * from "./modes/cfb";
+export * from "./modes/ctr";
+export * from "./modes/ofb";
+export * from "./modes/mac";
+export * from "./modes/acpkm";
+export * from "./modes/mgm";
+export * from "./modes/kexp";

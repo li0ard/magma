@@ -7,13 +7,11 @@ describe("CTR", () => {
     const plaintext = Buffer.from("92def06b3c130a59db54c704f8189d204a98fb2e67a8024c8912409b17b57e41", "hex")
     const encrypted = Buffer.from("4e98110c97b7b93c3e250d93d6e85d69136d868807b2dbef568eb680ab52a12d", "hex")
     test("Encryption", () => {
-        let result = encryptCTR(key, plaintext, iv.subarray(0, 4))
-        expect(result).toStrictEqual(encrypted)
+        expect(encryptCTR(key, plaintext, iv.subarray(0, 4))).toStrictEqual(encrypted)
     })
 
     test("Decryption", () => {
-        let result = decryptCTR(key, encrypted, iv.subarray(0, 4))
-        expect(result).toStrictEqual(plaintext)
+        expect(decryptCTR(key, encrypted, iv.subarray(0, 4))).toStrictEqual(plaintext)
     })
 })
 
@@ -24,12 +22,10 @@ describe("CTR (GOST 28147-89)", () => {
     const encrypted = Buffer.from("4a5e376ca112d35509131a21acfbb21e8c249b57206846d5232a263512565c692a2fd1abbd45dc3a1aa45764d5e4696db48bf154783b108f7a4b32e0e84cbf032437956a55a8ce6f956212f679e6f01b86ef363605d86f10a1410507f8faa40b172c71bc8bcbcf3d7418320b1cd29e75ba3e61e16196d0ee8ff29a5eb77a15aa4e1e777c99e14113f46039464c35de95cc4fd5afd14d841a45c72af22cc0b794a308b91296b597993ab70c1456b9cb4944a993a9fb19108c6a68e87b0657f0ef8844a6d298bed407413745a6713676694b75153390296e33cb963978192e96f3494c893da1868200cebd542965001d1613c3fe1f8c5563091fcdd428ca", "hex")
 
     test("Encryption", () => {
-        let result = encryptCTR(key, plaintext, iv, true, sboxes.ID_GOST_28147_89_TEST_PARAM_SET)
-        expect(result).toStrictEqual(encrypted)
+        expect(encryptCTR(key, plaintext, iv, true, sboxes.ID_GOST_28147_89_TEST_PARAM_SET)).toStrictEqual(encrypted)
     })
 
     test("Decryption", () => {
-        let result = encryptCTR(key, encrypted, iv, true, sboxes.ID_GOST_28147_89_TEST_PARAM_SET)
-        expect(result).toStrictEqual(plaintext)
+        expect(encryptCTR(key, encrypted, iv, true, sboxes.ID_GOST_28147_89_TEST_PARAM_SET)).toStrictEqual(plaintext)
     })
 })

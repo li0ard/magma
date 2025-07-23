@@ -7,13 +7,11 @@ describe("CFB", () => {
     const plaintext = Buffer.from("92def06b3c130a59db54c704f8189d204a98fb2e67a8024c8912409b17b57e41", "hex")
     const encrypted = Buffer.from("db37e0e266903c830d46644c1f9a089c24bdd2035315d38bbcc0321421075505", "hex")
     test("Encryption", () => {
-        let result = encryptCFB(key, plaintext, iv.subarray(0, 16))
-        expect(result).toStrictEqual(encrypted)
+        expect(encryptCFB(key, plaintext, iv.subarray(0, 16))).toStrictEqual(encrypted)
     })
 
     test("Decryption", () => {
-        let result = decryptCFB(key, encrypted, iv.subarray(0, 16))
-        expect(result).toStrictEqual(plaintext)
+        expect(decryptCFB(key, encrypted, iv.subarray(0, 16))).toStrictEqual(plaintext)
     })
 })
 
@@ -24,12 +22,10 @@ describe("CFB (GOST 28147-89)", () => {
     const encrypted = Buffer.from("6EE84586DD2BCA0CAD3616940E164242", "hex")
 
     test("Encryption", () => {
-        let result = encryptCFB(key, plaintext, iv, true, sboxes.ID_GOSTR_3411_94_TEST_PARAM_SET)
-        expect(result).toStrictEqual(encrypted)
+        expect(encryptCFB(key, plaintext, iv, true, sboxes.ID_GOSTR_3411_94_TEST_PARAM_SET)).toStrictEqual(encrypted)
     })
 
     test("Decryption", () => {
-        let result = decryptCFB(key, encrypted, iv, true, sboxes.ID_GOSTR_3411_94_TEST_PARAM_SET)
-        expect(result).toStrictEqual(plaintext)
+        expect(decryptCFB(key, encrypted, iv, true, sboxes.ID_GOSTR_3411_94_TEST_PARAM_SET)).toStrictEqual(plaintext)
     })
 })

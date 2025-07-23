@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
-import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413"
+import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using Cipher Block Chaining (CBC) mode with the Magma cipher.

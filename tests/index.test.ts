@@ -4,8 +4,6 @@ import { Magma } from "../src"
 const key = Buffer.from("ffeeddccbbaa99887766554433221100f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex")
 
 test("Key generation", () => {
-    let result = new Magma(key).getRoundKeys()
-
     let expected = [
         0xffeeddcc, 0xbbaa9988, 0x77665544, 0x33221100,
         0xf0f1f2f3, 0xf4f5f6f7, 0xf8f9fafb, 0xfcfdfeff,
@@ -17,20 +15,16 @@ test("Key generation", () => {
         0x33221100, 0x77665544, 0xbbaa9988, 0xffeeddcc,
     ];
 
-    expect(result).toStrictEqual(expected)
+    expect(new Magma(key).getRoundKeys()).toStrictEqual(expected)
 })
 
 test("Invalid key", () => {
-    function generateInvalid() {
-        return new Magma(new Uint8Array(31).fill(1))
-    }
+    const generateInvalid = () => new Magma(new Uint8Array(31).fill(1));
     expect(generateInvalid).toThrowError("Invalid key length")
 })
 
 test("Zeroed key", () => {
-    function generateZeroed() {
-        return new Magma(new Uint8Array(32))
-    }
+    const generateZeroed = () => new Magma(new Uint8Array(32));
     expect(generateZeroed).toThrowError("Invalid key format")
 })
 
