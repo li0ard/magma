@@ -33,22 +33,24 @@ bunx jsr i @li0ard/magma
 - [x] Cipher Feedback (CFB)
 - [x] Counter (CTR)
 - [x] Output Feedback (OFB)
-- [x] MAC (CMAC/OMAC/OMAC1)
+- [x] MAC (CMAC/OMAC)
 - [x] Counter with Advance Cryptographic Prolongation of Key Material (CTR-ACPKM)
 - [x] MAC with Advance Cryptographic Prolongation of Key Material (OMAC-ACPKM)
 - [x] Multilinear Galois Mode (MGM)
+- [x] KExp15/KImp15 key export/import ([P 1323565.1.017 (in Russian)](https://meganorm.ru/Data2/1/4293736/4293736760.pdf))
 
 ## Supported modes (GOST 28147-89)
 - [x] Electronic Codebook (ECB)
 - [x] Cipher Block Chaining (CBC)
 - [x] Cipher Feedback (CFB)
-- [x] Counter (CTR)
-- [ ] *MAC (Soon...)*
+- [x] Counter (CNT)
+- [x] MAC
+- [x] Key wrapping ([RFC 4357](https://datatracker.ietf.org/doc/html/rfc4357/))
 
 ## Features
 - Provides simple and modern API
 - Most of the APIs are strictly typed
-- Fully complies with [GOST R 34.12-2015 (RFC 8891)](https://datatracker.ietf.org/doc/html/rfc8891), [GOST R 34.13-2015 (in Russian)](https://tc26.ru/standard/gost/GOST_R_3413-2015.pdf) and [GOST 28147-89 (in Russian)](https://meganorm.ru/Data2/1/4294826/4294826631.pdf) standarts
+- Fully complies with [GOST R 34.12-2015 (RFC 8891)](https://datatracker.ietf.org/doc/html/rfc8891), [GOST R 34.13-2015 (in Russian)](https://tc26.ru/standard/gost/GOST_R_3413-2015.pdf) and [GOST 28147-89 (RFC 5830)](https://datatracker.ietf.org/doc/html/rfc5830) standarts
 - Supports Bun, Node.js, Deno, Browsers
 
 ## Examples

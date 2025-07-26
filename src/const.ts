@@ -1,3 +1,5 @@
+import { KEYSIZE } from "@li0ard/gost3413";
+
 /** S-Box from RFC 7836 */
 export const ID_TC26_GOST_28147_PARAM_Z = [
     [0x0c, 0x04, 0x06, 0x02, 0x0a, 0x05, 0x0b, 0x09, 0x0e, 0x08, 0x0d, 0x07, 0x00, 0x03, 0x0f, 0x01],
@@ -211,7 +213,7 @@ export const ID_GOSTR_3411_94_CRYPTOPRO_PARAM_SET = [
     [7, 6, 2, 4, 13, 9, 15, 0, 10, 1, 5, 11, 8, 14, 12, 3],
     [13, 14, 4, 1, 7, 0, 5, 10, 3, 12, 8, 15, 6, 2, 9, 11],
     [1, 3, 10, 9, 5, 11, 4, 15, 8, 6, 7, 14, 13, 0, 2, 12]
-]
+];
 
 export const EAC_PARAM_SET = [
     [11, 4, 8, 10, 9, 7, 0, 3, 1, 6, 2, 15, 14, 5, 12, 13],
@@ -222,7 +224,7 @@ export const EAC_PARAM_SET = [
     [9, 2, 11, 12, 0, 4, 5, 6, 3, 15, 13, 8, 1, 7, 14, 10],
     [4, 0, 14, 1, 5, 11, 8, 3, 12, 2, 9, 7, 6, 10, 13, 15],
     [7, 14, 12, 13, 9, 4, 8, 15, 10, 2, 6, 0, 3, 11, 5, 1],
-]
+];
 
 /** Implemented S-Boxes */
 export const sboxes = {
@@ -244,15 +246,13 @@ export const sboxes = {
     DSSZZI_UA_DKE_7,
     DSSZZI_UA_DKE_8,
     DSSZZI_UA_DKE_9,
-    DSSZZI_UA_DKE_10,
+    DSSZZI_UA_DKE_10
 }
 
 /** Magma block size */
 export const BLOCK_SIZE = 8;
 /** Magma key size */
-export const KEY_SIZE = 32;
-/** Cipher rounds */
-export const ROUNDS = 32;
+export const KEY_SIZE = KEYSIZE;
 
 /** Type for S-Box representation */
 export type Sbox = number[][];
@@ -261,6 +261,23 @@ export type Sbox = number[][];
 export class CipherError extends Error {
     constructor(message: string) {
         super(message);
-        this.name = "CipherError"
+        this.name = "CipherError";
     }
+}
+
+/** Sequences of `K_i` S-Box applying */
+export const keySequences = {
+    ENCRYPT: [
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        7, 6, 5, 4, 3, 2, 1, 0
+    ],
+    DECRYPT: [
+        0, 1, 2, 3, 4, 5, 6, 7,
+        7, 6, 5, 4, 3, 2, 1, 0,
+        7, 6, 5, 4, 3, 2, 1, 0,
+        7, 6, 5, 4, 3, 2, 1, 0
+    ],
+    MAC: [0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7]
 }

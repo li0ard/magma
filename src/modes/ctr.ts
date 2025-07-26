@@ -18,13 +18,7 @@ const cnt = (encrypter: CipherFunc, data: Uint8Array, iv: Uint8Array): Uint8Arra
     for (let i = 0; i < (data.length + getPadLength(data.length, BLOCK_SIZE)); i += BLOCK_SIZE) {
         n1 = (n1 + C2) % 0x100000000;
         n2 = (n2 + C1) % 0xFFFFFFFF;
-
-        const block = new Uint8Array(BLOCK_SIZE);
-        Magma.writeU32ToBytes(n2, block, 0);
-        Magma.writeU32ToBytes(n1, block, 4);
-        block.reverse();
-
-        gamma.push(encrypter(block));
+        gamma.push(encrypter(concatBytes(Magma.u32ToBytes(n2), Magma.u32ToBytes(n1)).reverse()));
     }
 
     return xor(concatBytes(...gamma), data);
