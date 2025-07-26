@@ -1,6 +1,6 @@
 {
     "name": "@li0ard/magma",
-    "version": "0.1.6",
+    "version": "0.1.6-1",
     "exports": "./src/index.ts",
     "publish": {
         "include": [
