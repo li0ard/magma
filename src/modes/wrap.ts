@@ -22,9 +22,9 @@ export const wrap = (kek: Uint8Array, cek: Uint8Array, ukm: Uint8Array, sbox: Sb
  * @param sbox Optional substitution box, defaults to `ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET`
  */
 export const unwrap = (kek: Uint8Array, data: Uint8Array, sbox: Sbox = sboxes.ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET): Uint8Array => {
-    if(data.length !== 44) throw new Error("Invalid data length");
+    if(data.length !== 44 && data.length !== 76) throw new Error("Invalid data length");
 
-    let [ukm, cek_enc, cek_mac] = [data.slice(0, 8), data.slice(8, 40), data.slice(-4)];
+    let [ukm, cek_enc, cek_mac] = [data.slice(0, 8), data.slice(8, data.length-4), data.slice(-4)];
     let cek = decryptECB(kek, cek_enc, true, sbox);
     if(!mac_legacy(kek, cek, ukm, sbox).slice(0, 4).every((value, index) => value === cek_mac[index])) throw new Error("Invalid MAC");
 
