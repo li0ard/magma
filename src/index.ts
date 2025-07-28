@@ -12,9 +12,7 @@ export class Magma {
      */
     constructor(private key: Uint8Array, private sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z) {
         if (key.length !== KEY_SIZE) throw new CipherError("Invalid key length");
-        if (key.every(byte => byte === 0)) throw new CipherError("Invalid key format");
-
-        this.roundKeys = this.regenerateRoundKeys(keySequences.ENCRYPT)
+        this.roundKeys = this.regenerateRoundKeys(keySequences.ENCRYPT);
     }
 
     /** Regenerate round keys for sequence */
@@ -24,7 +22,7 @@ export class Magma {
         let roundKeys = new Array(sequence.length);
         for (let i = 0; i < sequence.length; i++) roundKeys[i] = keyChunks[sequence[i]];
 
-        return roundKeys
+        return roundKeys;
     }
 
     /**
@@ -88,7 +86,7 @@ export class Magma {
      * @param block Block to be encrypted
      */
     public encryptBlock(block: Uint8Array): Uint8Array {
-        return this.proceedBlock(block, keySequences.ENCRYPT)
+        return this.proceedBlock(block, keySequences.ENCRYPT);
     }
 
     /**
@@ -96,7 +94,7 @@ export class Magma {
      * @param block Block to be decrypted
      */
     public decryptBlock(block: Uint8Array): Uint8Array {
-        return this.proceedBlock(block, keySequences.DECRYPT)
+        return this.proceedBlock(block, keySequences.DECRYPT);
     }
 
     /** Encrypt single block of data using old Magma (GOST 28147-89) algorithm */

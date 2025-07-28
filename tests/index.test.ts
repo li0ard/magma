@@ -23,11 +23,6 @@ test("Invalid key", () => {
     expect(generateInvalid).toThrowError("Invalid key length")
 })
 
-test("Zeroed key", () => {
-    const generateZeroed = () => new Magma(new Uint8Array(32));
-    expect(generateZeroed).toThrowError("Invalid key format")
-})
-
 test("Transform G", () => {
     let cases = [
         [0x87654321, 0xfedcba98, 0xfdcbc20c],
