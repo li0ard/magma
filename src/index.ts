@@ -1,5 +1,5 @@
-import { BLOCK_SIZE, CipherError, KEY_SIZE, keySequences, sboxes, type Sbox } from "./const";
-import { concatBytes } from "@li0ard/gost3413/dist/utils";
+import { BLOCK_SIZE, CipherError, KEY_SIZE, keySequences, sboxes, type Sbox } from "./const.js";
+import { concatBytes } from "@li0ard/gost3413/dist/utils.js";
 
 /** Magma core class */
 export class Magma {
@@ -133,13 +133,13 @@ export class Magma {
     }
 }
 
-export * from "./const";
-export * from "./modes/ecb";
-export * from "./modes/cbc";
-export * from "./modes/cfb";
-export * from "./modes/ctr";
-export * from "./modes/ofb";
-export * from "./modes/mac";
-export * from "./modes/acpkm";
-export * from "./modes/mgm";
-export * from "./modes/wrap";
+export * from "./const.js";
+export * from "./modes/ecb.js";
+export * from "./modes/cbc.js";
+export * from "./modes/cfb.js";
+export * from "./modes/ctr.js";
+export * from "./modes/ofb.js";
+export * from "./modes/mac.js";
+export * from "./modes/acpkm.js";
+export * from "./modes/mgm.js";
+export * from "./modes/wrap.js";

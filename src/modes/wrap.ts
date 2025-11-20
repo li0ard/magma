@@ -1,5 +1,5 @@
-import { concatBytes } from "@li0ard/gost3413/dist/utils";
-import { BLOCK_SIZE, decryptECB, encryptCFB, encryptECB, mac_legacy, Magma, type Sbox, sboxes } from "../";
+import { concatBytes } from "@li0ard/gost3413/dist/utils.js";
+import { BLOCK_SIZE, decryptECB, encryptCFB, encryptECB, mac_legacy, Magma, type Sbox, sboxes } from "../index.js";
 import { kexp15 as kexp15_, kimp15 as kimp15_ } from "@li0ard/gost3413";
 
 /**
@@ -10,8 +10,8 @@ import { kexp15 as kexp15_, kimp15 as kimp15_ } from "@li0ard/gost3413";
  * @param sbox Optional substitution box, defaults to `ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET`
  */
 export const wrap = (kek: Uint8Array, cek: Uint8Array, ukm: Uint8Array, sbox: Sbox = sboxes.ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET): Uint8Array => {
-    let cek_mac = mac_legacy(kek, cek, ukm, sbox).slice(0, 4);
-    let cek_enc = encryptECB(kek, cek, true, sbox);
+    const cek_mac = mac_legacy(kek, cek, ukm, sbox).slice(0, 4);
+    const cek_enc = encryptECB(kek, cek, true, sbox);
     return concatBytes(ukm, cek_enc, cek_mac);
 }
 
@@ -24,8 +24,8 @@ export const wrap = (kek: Uint8Array, cek: Uint8Array, ukm: Uint8Array, sbox: Sb
 export const unwrap = (kek: Uint8Array, data: Uint8Array, sbox: Sbox = sboxes.ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET): Uint8Array => {
     if(data.length !== 44 && data.length !== 76) throw new Error("Invalid data length");
 
-    let [ukm, cek_enc, cek_mac] = [data.slice(0, 8), data.slice(8, data.length-4), data.slice(-4)];
-    let cek = decryptECB(kek, cek_enc, true, sbox);
+    const [ukm, cek_enc, cek_mac] = [data.slice(0, 8), data.slice(8, data.length-4), data.slice(-4)];
+    const cek = decryptECB(kek, cek_enc, true, sbox);
     if(!mac_legacy(kek, cek, ukm, sbox).slice(0, 4).every((value, index) => value === cek_mac[index])) throw new Error("Invalid MAC");
 
     return cek;
@@ -84,10 +84,8 @@ export const cp_kek_diversify = (kek: Uint8Array, ukm: Uint8Array, sbox: Sbox = 
  */
 export const kexp15 = (key: Uint8Array, keyEnc: Uint8Array, keyMac: Uint8Array, iv: Uint8Array): Uint8Array => {
     const keyCipher = new Magma(keyEnc);
-    const keyEncrypter = (block: Uint8Array) => keyCipher.encryptBlock(block);
     const macCipher = new Magma(keyMac);
-    const macEncrypter = (block: Uint8Array) => macCipher.encryptBlock(block);
-    return kexp15_(keyEncrypter, macEncrypter, BLOCK_SIZE, key, iv);
+    return kexp15_(keyCipher.encryptBlock.bind(keyCipher), macCipher.encryptBlock.bind(macCipher), BLOCK_SIZE, key, iv);
 }
 
 /**
@@ -99,8 +97,6 @@ export const kexp15 = (key: Uint8Array, keyEnc: Uint8Array, keyMac: Uint8Array, 
  */
 export const kimp15 = (kexp: Uint8Array, keyEnc: Uint8Array, keyMac: Uint8Array, iv: Uint8Array): Uint8Array => {
     const keyCipher = new Magma(keyEnc);
-    const keyEncrypter = (block: Uint8Array) => keyCipher.encryptBlock(block);
     const macCipher = new Magma(keyMac);
-    const macEncrypter = (block: Uint8Array) => macCipher.encryptBlock(block);
-    return kimp15_(keyEncrypter, macEncrypter, BLOCK_SIZE, kexp, iv);
+    return kimp15_(keyCipher.encryptBlock.bind(keyCipher), macCipher.encryptBlock.bind(macCipher), BLOCK_SIZE, kexp, iv);
 }

@@ -1,19 +1,19 @@
-import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
+import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../index.js";
 import { ctr, getPadLength } from "@li0ard/gost3413";
-import { concatBytes, xor, type CipherFunc } from "@li0ard/gost3413/dist/utils";
+import { concatBytes, xor, type CipherFunc } from "@li0ard/gost3413/dist/utils.js";
 
 /** Magma `CNT` (not `CTR`, but similar) mode */
 const cnt = (encrypter: CipherFunc, data: Uint8Array, iv: Uint8Array): Uint8Array => {
     if(iv.length !== BLOCK_SIZE) throw new Error("Invalid IV size");
-    let C1 = 0x01010104;
-    let C2 = 0x01010101;
+    const C1 = 0x01010104;
+    const C2 = 0x01010101;
 
     const encryptedIv = encrypter(iv).reverse();
     
     let n2 = Magma.bytesToU32(encryptedIv.slice(0, 4));
     let n1 = Magma.bytesToU32(encryptedIv.slice(4));
 
-    let gamma: Uint8Array[] = [];
+    const gamma: Uint8Array[] = [];
 
     for (let i = 0; i < (data.length + getPadLength(data.length, BLOCK_SIZE)); i += BLOCK_SIZE) {
         n1 = (n1 + C2) % 0x100000000;

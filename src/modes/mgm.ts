@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, Magma } from "../";
+import { BLOCK_SIZE, Magma } from "../index.js";
 import { MGM } from "@li0ard/gost3413";
 
 /**
@@ -10,9 +10,8 @@ import { MGM } from "@li0ard/gost3413";
  */
 export const encryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, additionalData: Uint8Array = new Uint8Array()): Uint8Array => {
     const cipher = new Magma(key);
-    const encrypter = (buf: Uint8Array) => cipher.encryptBlock(buf);
+    const mgm = new MGM(cipher.encryptBlock.bind(cipher), BLOCK_SIZE);
 
-    let mgm = new MGM(encrypter, BLOCK_SIZE);
     return mgm.seal(iv.slice(), data.slice(), additionalData.slice());
 }
 
@@ -25,8 +24,7 @@ export const encryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, ad
  */
 export const decryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, additionalData: Uint8Array = new Uint8Array()): Uint8Array => {
     const cipher = new Magma(key);
-    const encrypter = (buf: Uint8Array) => cipher.encryptBlock(buf);
-
-    let mgm = new MGM(encrypter, BLOCK_SIZE);
+    const mgm = new MGM(cipher.encryptBlock.bind(cipher), BLOCK_SIZE);
+    
     return mgm.open(iv.slice(), data.slice(), additionalData.slice());
 }

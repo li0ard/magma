@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../";
+import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../index.js";
 import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413";
 
 /**
@@ -13,8 +13,7 @@ import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413";
  */
 export const encryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
-    const encrypter = (buf: Uint8Array) => (legacy ? cipher.encryptLegacy(buf) : cipher.encryptBlock(buf));
-    return cbc_encrypt(encrypter, BLOCK_SIZE, data, iv);
+    return cbc_encrypt((legacy ? cipher.encryptLegacy : cipher.encryptBlock).bind(cipher), BLOCK_SIZE, data, iv);
 }
 
 /**
@@ -29,6 +28,5 @@ export const encryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, le
  */
 export const decryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
-    const decrypter = (buf: Uint8Array) => (legacy ? cipher.decryptLegacy(buf) : cipher.decryptBlock(buf));
-    return cbc_decrypt(decrypter, BLOCK_SIZE, data, iv);
+    return cbc_decrypt((legacy ? cipher.decryptLegacy : cipher.decryptBlock).bind(cipher), BLOCK_SIZE, data, iv);
 }
