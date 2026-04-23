@@ -11,7 +11,7 @@ jobs:
   docs:
     uses: li0ard/workflow/.github/workflows/docs.yml@011b6c3387ee28ccb17fc6b849a4d117ab12472b
     with:
-      deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'li0ard/streebog' }}
+      deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'li0ard/magma' }}
     permissions:
       contents: read
       pages: write
