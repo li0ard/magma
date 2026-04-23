@@ -257,14 +257,6 @@ export const KEY_SIZE = KEYSIZE;
 /** Type for S-Box representation */
 export type Sbox = number[][];
 
-/** Wrapper for default `Error` class */
-export class CipherError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "CipherError";
-    }
-}
-
 /** Sequences of `K_i` S-Box applying */
 export const keySequences = {
     ENCRYPT: [

@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../index.js";
-import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413";
+import { cbc_encrypt, cbc_decrypt, type TArg, type TRet } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using Cipher Block Chaining (CBC) mode with the Magma cipher.
@@ -9,9 +9,14 @@ import { cbc_encrypt, cbc_decrypt } from "@li0ard/gost3413";
  * @param iv Initialization vector
  * @param legacy Enable backward compatibility with old GOST 28147-89
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Uint8Array}
  */
-export const encryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
+export const encryptCBC = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    iv: TArg<Uint8Array>,
+    legacy: boolean = false, 
+    sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z
+): TRet<Uint8Array> => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
     return cbc_encrypt((legacy ? cipher.encryptLegacy : cipher.encryptBlock).bind(cipher), BLOCK_SIZE, data, iv);
 }
@@ -24,9 +29,14 @@ export const encryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, le
  * @param iv Initialization vector
  * @param legacy Enable backward compatibility with old GOST 28147-89
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Uint8Array}
  */
-export const decryptCBC = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
+export const decryptCBC = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    iv: TArg<Uint8Array>,
+    legacy: boolean = false,
+    sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z
+): TRet<Uint8Array> => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
     return cbc_decrypt((legacy ? cipher.decryptLegacy : cipher.decryptBlock).bind(cipher), BLOCK_SIZE, data, iv);
 }

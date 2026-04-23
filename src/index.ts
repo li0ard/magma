@@ -1,5 +1,5 @@
-import { BLOCK_SIZE, CipherError, KEY_SIZE, keySequences, sboxes, type Sbox } from "./const.js";
-import { concatBytes } from "@li0ard/gost3413/dist/utils.js";
+import { BLOCK_SIZE, KEY_SIZE, keySequences, sboxes, type Sbox } from "./const.js";
+import { concatBytes, type TArg, type TRet } from "@li0ard/gost3413";
 
 /** Magma core class */
 export class Magma {
@@ -10,8 +10,8 @@ export class Magma {
      * @param key Encryption key
      * @param sbox S-Box
      */
-    constructor(private key: Uint8Array, private sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z) {
-        if (key.length !== KEY_SIZE) throw new CipherError("Invalid key length");
+    constructor(private key: TArg<Uint8Array>, private sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z) {
+        if (key.length !== KEY_SIZE) throw new Error("Invalid key length");
         this.roundKeys = this.regenerateRoundKeys(keySequences.ENCRYPT);
     }
 
@@ -32,7 +32,7 @@ export class Magma {
      * @param value Value to be transformed
      * @returns {number} Transformed 32-bit value after substitution
     */
-    public transformT(value: number): number {
+    private transformT(value: number): number {
         let result = 0;
         for (let i = 0; i < 8; i++) result |= this.sbox[i][(value >> (4 * i)) & 0x0f] << (4 * i);
         return result >>> 0;
@@ -45,7 +45,7 @@ export class Magma {
      * @param k Round key used in the transformation
      * @returns {number} Transformed 32-bit value after G-transformation
      */
-    public transformG(a: number, k: number): number {
+    private transformG(a: number, k: number): number {
         const substituted = this.transformT((a + k) >>> 0);
         return ((substituted << 11) | (substituted >>> 21)) >>> 0;
     }
@@ -63,11 +63,10 @@ export class Magma {
      * @param block Block
      * @param sequence Sequence of `K_i` S-Box applying
      * @returns {Uint8Array} Proceeded block
-     * @throws {CipherError} Block size is invalid or data is too short
      */
-    public proceedBlock(block: Uint8Array, sequence: number[]): Uint8Array {
+    public proceedBlock(block: TArg<Uint8Array>, sequence: number[]): TRet<Uint8Array> {
         let roundKeys = this.regenerateRoundKeys(sequence);
-        if (block.length !== BLOCK_SIZE) throw new CipherError("Invalid block size");
+        if (block.length !== BLOCK_SIZE) throw new Error("Invalid block size");
 
         let a0 = Magma.bytesToU32(block.slice(0, 4));
         let a1 = Magma.bytesToU32(block.slice(4, 8));
@@ -85,7 +84,7 @@ export class Magma {
      * Encrypts single block of data using Magma cipher.
      * @param block Block to be encrypted
      */
-    public encryptBlock(block: Uint8Array): Uint8Array {
+    public encryptBlock(block: TArg<Uint8Array>): TRet<Uint8Array> {
         return this.proceedBlock(block, keySequences.ENCRYPT);
     }
 
@@ -93,41 +92,43 @@ export class Magma {
      * Decrypts single block of data using Magma cipher.
      * @param block Block to be decrypted
      */
-    public decryptBlock(block: Uint8Array): Uint8Array {
+    public decryptBlock(block: TArg<Uint8Array>): TRet<Uint8Array> {
         return this.proceedBlock(block, keySequences.DECRYPT);
     }
 
     /** Encrypt single block of data using old Magma (GOST 28147-89) algorithm */
-    public encryptLegacy(block: Uint8Array): Uint8Array {
+    public encryptLegacy(block: TArg<Uint8Array>): TRet<Uint8Array> {
         return Magma.reverseChunks(this.encryptBlock(Magma.reverseChunks(block)));
     }
 
     /** Decrypt single block of data using old Magma (GOST 28147-89) algorithm */
-    public decryptLegacy(block: Uint8Array): Uint8Array {
+    public decryptLegacy(block: TArg<Uint8Array>): TRet<Uint8Array> {
         return Magma.reverseChunks(this.decryptBlock(Magma.reverseChunks(block)));
     }
 
     /** Convert bytes to uint32 number */
-    public static bytesToU32(bytes: Uint8Array): number {
+    public static bytesToU32(bytes: TArg<Uint8Array>): number {
         return ((bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3]) >>> 0;
     }
 
     /** Convert uint32 number to bytes */
-    public static u32ToBytes(value: number): Uint8Array {
+    public static u32ToBytes(value: number): TRet<Uint8Array> {
         return new Uint8Array([(value >> 24) & 0xff, (value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff]);
     }
 
     /** Backward compatibility key preparation for 28147-89 key schedule */
-    public static reverseKey(key: Uint8Array): Uint8Array {
+    public static reverseKey(key: TArg<Uint8Array>): TRet<Uint8Array> {
         const result = new Uint8Array(KEY_SIZE);
-        for (let i = 0; i < BLOCK_SIZE; i++) result.set(new Uint8Array(key.slice(i * 4, i * 4 + 4)).reverse(), i * 4);
+        for (let i = 0; i < BLOCK_SIZE; i++)
+            result.set(new Uint8Array(key.slice(i * 4, i * 4 + 4)).reverse(), i * 4);
         return result;
     }
 
     /** Backward compatibility block preparation for 28147-89 */
-    public static reverseChunks(data: Uint8Array): Uint8Array {
+    public static reverseChunks(data: TArg<Uint8Array>): TRet<Uint8Array> {
         const chunks: Uint8Array[] = [];
-        for (let i = 0; i < data.length; i += BLOCK_SIZE) chunks.push(new Uint8Array(data.slice(i, i + BLOCK_SIZE)).reverse());
+        for (let i = 0; i < data.length; i += BLOCK_SIZE)
+            chunks.push(new Uint8Array(data.slice(i, i + BLOCK_SIZE)).reverse());
 
         return concatBytes(...chunks);
     }

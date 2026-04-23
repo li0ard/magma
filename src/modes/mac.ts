@@ -1,6 +1,6 @@
 import { xor } from "@li0ard/gost3413/dist/utils.js";
 import { BLOCK_SIZE, keySequences, Magma, type Sbox, sboxes } from "../index.js";
-import { mac as mac_, pad1 } from "@li0ard/gost3413";
+import { mac as mac_, pad1, type TArg, type TRet } from "@li0ard/gost3413";
 
 /**
  * Compute MAC with Magma cipher (GOST 28147-89)
@@ -9,12 +9,17 @@ import { mac as mac_, pad1 } from "@li0ard/gost3413";
  * @param iv Initialization vector
  * @param sbox Optional substitution box, defaults to `ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET`
  */
-export const mac_legacy = (key: Uint8Array, data: Uint8Array, iv: Uint8Array = new Uint8Array(BLOCK_SIZE), sbox: Sbox = sboxes.ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET): Uint8Array => {
-    const split = (data: Uint8Array): number[] => [
+export const mac_legacy = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    iv: TArg<Uint8Array> = new Uint8Array(BLOCK_SIZE),
+    sbox: Sbox = sboxes.ID_GOST_28147_89_CRYPTO_PRO_A_PARAM_SET
+): TRet<Uint8Array> => {
+    const split = (data: TArg<Uint8Array>): number[] => [
         (data[0] | data[1] << 8 | data[2] << 16 | data[3] << 24) >>> 0,
         (data[4] | data[5] << 8 | data[6] << 16 | data[7] << 24) >>> 0
     ];
-    const join = (ns: number[]): Uint8Array => new Uint8Array([
+    const join = (ns: number[]): TRet<Uint8Array> => new Uint8Array([
         (ns[1] >> 0) & 0xFF, (ns[1] >> 8) & 0xFF, (ns[1] >> 16) & 0xFF, (ns[1] >> 24) & 0xFF,
         (ns[0] >> 0) & 0xFF, (ns[0] >> 8) & 0xFF, (ns[0] >> 16) & 0xFF, (ns[0] >> 24) & 0xFF
     ]);
@@ -37,7 +42,11 @@ export const mac_legacy = (key: Uint8Array, data: Uint8Array, iv: Uint8Array = n
  * @param data Input data
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
  */
-export const mac = (key: Uint8Array, data: Uint8Array, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
+export const mac = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z
+): TRet<Uint8Array> => {
     const cipher = new Magma(key, sbox);
     return mac_(cipher.encryptBlock.bind(cipher), BLOCK_SIZE, data);
 }

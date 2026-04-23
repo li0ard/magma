@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, Magma } from "../index.js";
-import { MGM } from "@li0ard/gost3413";
+import { MGM, type TArg, type TRet } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using the Multilinear Galois Mode (MGM) with Magma cipher.
@@ -8,7 +8,12 @@ import { MGM } from "@li0ard/gost3413";
  * @param iv Initialization vector
  * @param additionalData Additional data to be authenticated
  */
-export const encryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, additionalData: Uint8Array = new Uint8Array()): Uint8Array => {
+export const encryptMGM = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    iv: TArg<Uint8Array>,
+    additionalData: TArg<Uint8Array> = new Uint8Array()
+): TRet<Uint8Array> => {
     const cipher = new Magma(key);
     const mgm = new MGM(cipher.encryptBlock.bind(cipher), BLOCK_SIZE);
 
@@ -22,7 +27,12 @@ export const encryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, ad
  * @param iv Initialization vector
  * @param additionalData Additional data to be authenticated
  */
-export const decryptMGM = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, additionalData: Uint8Array = new Uint8Array()): Uint8Array => {
+export const decryptMGM = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    iv: TArg<Uint8Array>,
+    additionalData: TArg<Uint8Array> = new Uint8Array()
+): TRet<Uint8Array> => {
     const cipher = new Magma(key);
     const mgm = new MGM(cipher.encryptBlock.bind(cipher), BLOCK_SIZE);
     

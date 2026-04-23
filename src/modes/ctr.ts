@@ -1,9 +1,8 @@
 import { BLOCK_SIZE, Magma, type Sbox, sboxes } from "../index.js";
-import { ctr, getPadLength } from "@li0ard/gost3413";
-import { concatBytes, xor, type CipherFunc } from "@li0ard/gost3413/dist/utils.js";
+import { ctr, getPadLength, type TArg, concatBytes, xor, type CipherFunc, type TRet } from "@li0ard/gost3413";
 
 /** Magma `CNT` (not `CTR`, but similar) mode */
-const cnt = (encrypter: CipherFunc, data: Uint8Array, iv: Uint8Array): Uint8Array => {
+const cnt = (encrypter: CipherFunc, data: TArg<Uint8Array>, iv: TArg<Uint8Array>): TRet<Uint8Array> => {
     if(iv.length !== BLOCK_SIZE) throw new Error("Invalid IV size");
     const C1 = 0x01010104;
     const C2 = 0x01010101;
@@ -32,14 +31,18 @@ const cnt = (encrypter: CipherFunc, data: Uint8Array, iv: Uint8Array): Uint8Arra
  * @param iv Initialization vector
  * @param legacy Enable backward compatibility with old GOST 28147-89
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Uint8Array}
  */
-export const encryptCTR = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
+export const encryptCTR = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    iv: TArg<Uint8Array>,
+    legacy: boolean = false,
+    sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z
+): TRet<Uint8Array> => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
-    const encrypter = (buf: Uint8Array) => (legacy ? cipher.encryptLegacy(buf) : cipher.encryptBlock(buf));
+    const encrypter = (buf: TArg<Uint8Array>) => (legacy ? cipher.encryptLegacy(buf) : cipher.encryptBlock(buf));
     if(legacy) return cnt(encrypter, data, iv);
     return ctr(encrypter, BLOCK_SIZE, data, iv);
-    
 }
 
 /**
@@ -50,6 +53,5 @@ export const encryptCTR = (key: Uint8Array, data: Uint8Array, iv: Uint8Array, le
  * @param iv Initialization vector
  * @param legacy Enable backward compatibility with old GOST 28147-89
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Uint8Array}
  */
 export const decryptCTR = encryptCTR;

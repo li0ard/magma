@@ -1,5 +1,5 @@
 import { Magma, type Sbox, sboxes, BLOCK_SIZE } from "../index.js";
-import { ecb_encrypt, ecb_decrypt } from "@li0ard/gost3413";
+import { ecb_encrypt, ecb_decrypt, type TArg, type TRet } from "@li0ard/gost3413";
 
 /**
  * Encrypts data using Electronic Codebook (ECB) mode with Magma cipher.
@@ -8,9 +8,13 @@ import { ecb_encrypt, ecb_decrypt } from "@li0ard/gost3413";
  * @param data Data to be encrypted
  * @param legacy Enable backward compatibility with old GOST 28147-89
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Uint8Array}
  */
-export const encryptECB = (key: Uint8Array, data: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
+export const encryptECB = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    legacy: boolean = false,
+    sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z
+): TRet<Uint8Array> => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
     const result = ecb_encrypt((legacy ? cipher.encryptLegacy : cipher.encryptBlock).bind(cipher), BLOCK_SIZE, data);
     return result;
@@ -23,9 +27,13 @@ export const encryptECB = (key: Uint8Array, data: Uint8Array, legacy: boolean = 
  * @param data Data to be decrypted
  * @param legacy Enable backward compatibility with old GOST 28147-89
  * @param sbox Optional substitution box, defaults to `ID_TC26_GOST_28147_PARAM_Z`
- * @returns {Uint8Array}
  */
-export const decryptECB = (key: Uint8Array, data: Uint8Array, legacy: boolean = false, sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z): Uint8Array => {
+export const decryptECB = (
+    key: TArg<Uint8Array>,
+    data: TArg<Uint8Array>,
+    legacy: boolean = false,
+    sbox: Sbox = sboxes.ID_TC26_GOST_28147_PARAM_Z
+): TRet<Uint8Array> => {
     const cipher = new Magma(legacy ? Magma.reverseKey(key) : key, sbox);
     const result = ecb_decrypt((legacy ? cipher.decryptLegacy : cipher.decryptBlock).bind(cipher), BLOCK_SIZE, data);
     return result;
