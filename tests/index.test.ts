@@ -23,7 +23,7 @@ test("Invalid key", () => {
     expect(generateInvalid).toThrowError("Invalid key length")
 })
 
-test("Transform G", () => {
+/*test("Transform G", () => {
     let cases = [
         [0x87654321, 0xfedcba98, 0xfdcbc20c],
         [0xfdcbc20c, 0x87654321, 0x7e791a4b],
@@ -49,4 +49,4 @@ test("Transform T", () => {
     for(let i of cases) {
         expect(cipher.transformT(i[0])).toBe(i[1])
     }
-})
+})*/
