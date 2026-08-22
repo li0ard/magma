@@ -13,9 +13,8 @@
     <hr>
 </p>
 
-> [!WARNING]
-> This library is currently in alpha stage: the lib is not very stable yet, and there may be a lot of bugs
-> feel free to try it out, though, any feedback is appreciated!
+> [!IMPORTANT]  
+> This repository is archived. All GOST implementations moved to [`@li0ard/gost`](https://github.com/li0ard/gost)
 
 ## Installation
 
